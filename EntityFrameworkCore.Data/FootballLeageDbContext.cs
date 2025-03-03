@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using EntityFrameworkCore.Domain;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace EntityFrameworkCore.Data
 {
@@ -15,7 +16,13 @@ namespace EntityFrameworkCore.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            base.OnConfiguring(optionsBuilder);
+            //Using SQL Server
+            optionsBuilder.UseSqlServer("Data Source=DEVOPS\\SQLEXPRESS;" +
+                "Inital Catalog=FoorballLeage_EfCore;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False").LogTo(Console.WriteLine, LogLevel.Information);
+            
+            //Usando Sqlite
+            //optionsBuilder.UseSqlite($"Data Source =(localdb)\\MSSQLLocalDB;Inital Catalog=FoorballLeage_EfCore; Encrypt=False;");
+
         }
     }
 }
