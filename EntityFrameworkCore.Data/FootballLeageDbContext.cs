@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using EntityFrameworkCore.Domain;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Logging;
 
 namespace EntityFrameworkCore.Data
@@ -17,12 +18,44 @@ namespace EntityFrameworkCore.Data
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             //Using SQL Server
-            optionsBuilder.UseSqlServer("Data Source=DEVOPS\\SQLEXPRESS;" +
-                "Inital Catalog=FoorballLeage_EfCore;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False").LogTo(Console.WriteLine, LogLevel.Information);
-            
-            //Usando Sqlite
-            //optionsBuilder.UseSqlite($"Data Source =(localdb)\\MSSQLLocalDB;Inital Catalog=FoorballLeage_EfCore; Encrypt=False;");
+            //optionsBuilder.UseSqlServer("Data Source=DEVOPS\\SQLEXPRESS;" +
+            //    "Inital Catalog=FoorballLeage_EfCore;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False");
+            optionsBuilder.UseSqlServer("Server=DEVOPS\\SQLEXPRESS;Database=FoorballLeageEfCore; Encrypt=False;TrustServerCertificate=True;Trusted_Connection=True;");
 
+            //Usando Sqlite
+            //optionsBuilder.UseSqlite($"Data Source =(localdb)\\MSSQLLocalDB;Initial Catalog=FoorballLeage_EfCore; Encrypt=False;");
+            optionsBuilder.ConfigureWarnings(warnings => warnings.Ignore(RelationalEventId.PendingModelChangesWarning));
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            //base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<Team>().HasData(
+                new Team
+                {
+                    TeamId = 1,
+                    Name = "Real Madrid F.C",
+                    CreateDate = DateTime.Now,
+                },
+                new Team
+                {
+                    TeamId = 2,
+                    Name = "Tivoli Gardens F.C",
+                    CreateDate = DateTimeOffset.UtcNow.DateTime,
+                },
+                new Team
+                {
+                    TeamId = 3,
+                    Name = "Waterhouse F.C",
+                    CreateDate = DateTimeOffset.UtcNow.DateTime,
+                },
+                new Team
+                {
+                    TeamId = 4,
+                    Name = "Humble Lions F.C",
+                    CreateDate = DateTimeOffset.UtcNow.DateTime,
+                }
+                );
         }
     }
 }
