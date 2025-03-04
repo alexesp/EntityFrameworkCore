@@ -12,15 +12,31 @@ namespace EntityFrameworkCore.Data
 {
     public class FootballLeageDbContext : DbContext
     {
+        //public FootballLeageDbContext()
+        //{
+        //    var folder = Environment.SpecialFolder.LocalApplicationData;
+        //    var path = Environment.GetFolderPath(folder);
+        //    DbPath = Path.Combine(path, "FoorballLeageEfCore.db");
+        //}
         public DbSet<Team> Teams { get; set; }
         public DbSet<Coach> Coaches { get; set; }
+        public string DbPath { get; private set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             //Using SQL Server
             //optionsBuilder.UseSqlServer("Data Source=DEVOPS\\SQLEXPRESS;" +
             //    "Inital Catalog=FoorballLeage_EfCore;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False");
-            optionsBuilder.UseSqlServer("Server=DEVOPS\\SQLEXPRESS;Database=FoorballLeageEfCore; Encrypt=False;TrustServerCertificate=True;Trusted_Connection=True;");
+
+            optionsBuilder.UseSqlServer("Server=DEVOPS\\SQLEXPRESS;Database=FoorballLeageEfCore; Encrypt=False;TrustServerCertificate=True;Trusted_Connection=True;")
+                .LogTo(Console.WriteLine, LogLevel.Information)
+                .EnableSensitiveDataLogging()
+                .EnableDetailedErrors();
+
+            //optionsBuilder.UseSqlite($"Data Source={DbPath}")
+            //    .LogTo(Console.WriteLine, LogLevel.Information)
+            //    .EnableSensitiveDataLogging()
+            //    .EnableDetailedErrors();
 
             //Usando Sqlite
             //optionsBuilder.UseSqlite($"Data Source =(localdb)\\MSSQLLocalDB;Initial Catalog=FoorballLeage_EfCore; Encrypt=False;");
