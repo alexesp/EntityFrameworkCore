@@ -16,7 +16,7 @@ using var context = new FootballLeageDbContext();
 
 //var teamThree = await context.Teams.SingleAsync();
 //var teamThree = await context.Teams.SingleAsync(team => team.TeamId == 2);
-var teamThree = await context.Teams.SingleOrDefaultAsync(team => team.TeamId == 2);
+//var teamThree = await context.Teams.SingleOrDefaultAsync(team => team.TeamId == 2);
 
 //void GetAllTeams()
 //{
@@ -29,3 +29,11 @@ var teamThree = await context.Teams.SingleOrDefaultAsync(team => team.TeamId == 
 //    }
 
 //}
+
+await GetFilteredTeams();
+
+async Task GetFilteredTeams()
+{
+    var desiredTeam =  Console.ReadLine();
+    var teamsFiltered = await context.Teams.Where(q => q.Name == desiredTeam).ToListAsync();
+}
