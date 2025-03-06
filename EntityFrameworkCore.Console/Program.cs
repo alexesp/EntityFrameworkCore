@@ -1,9 +1,10 @@
 ﻿using EntityFrameworkCore.Data;
+using EntityFrameworkCore.Data.ScaffoldModels;
 using Microsoft.EntityFrameworkCore;
 
 using var context = new FootballLeageDbContext();
 
-
+await context.Database.MigrateAsync();
 
 //GetAllTeams();
 
@@ -30,10 +31,51 @@ using var context = new FootballLeageDbContext();
 
 //}
 
-await GetFilteredTeams();
+//await GetFilteredTeams();
 
-async Task GetFilteredTeams()
-{
-    var desiredTeam =  Console.ReadLine();
-    var teamsFiltered = await context.Teams.Where(q => q.Name == desiredTeam).ToListAsync();
-}
+//async Task GetFilteredTeams()
+//{
+//    var desiredTeam =  Console.ReadLine();
+//    var teamsFiltered = await context.Teams.Where(q => q.Name == desiredTeam).ToListAsync();
+//}
+
+//var minTeams = await context.Teams.MinAsync(q => q.TeamId);
+//var maxTeams = await context.Teams.MaxAsync(q => q.TeamId);
+
+//var groupedTeams = context.Teams.GroupBy(q => q.CreateDate.Date);
+
+//var orderedTeams = await context.Teams.OrderBy(q => q.Name).ToListAsync();
+//var orderedTeams = await context.Teams.OrderByDescending(q => q.Name).ToListAsync();
+
+//var teams = await context.Teams
+//    .Select(q => q.Name)
+//    .ToListAsync();
+
+//var teams = await context.Teams
+//    .Select(q => new { q.Name, q.CreateDate })
+//    .ToListAsync();
+
+//var teamsAsQueryable = context.Teams.AsQueryable();
+
+///##########  INSERTING DATA  ###########################################
+
+//var newCoach = new Coach
+//{
+//    Id = 5,
+//    Name = "Jose Mourinho",
+//    CreateDate = DateTime.Now,
+//};
+//await context.Coaches.AddAsync(newCoach);
+//await context.SaveChangesAsync();
+//context.Update(newCoach);
+
+
+//var coach = await context.Coaches.FindAsync(1);
+
+//context.Remove(coach);
+//context.Entry(coach).State = EntityState.Detached;
+//await context.SaveChangesAsync();
+
+
+
+
